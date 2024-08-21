@@ -1,0 +1,11 @@
+{
+  "sqltools.connections": [
+    {
+      "previewLimit": 50,
+      "driver": "SQLite",
+      "database": "\\\\wsl.localhost\\Ubuntu\\home\\samuelv\\tutorials\\bulletproof-fastapi\\products_and_sellers.db",
+      "name": "products_and_sellers.db"
+    }
+  ],
+  "sqltools.useNodeRuntime": true
+}

@@ -7,8 +7,7 @@ from app.config.config import settings
 # Engine for a MySQL Database
 # engine = create_engine(settings.SQLALCHEMY_DATABASE_URI, pool_pre_ping=True)
 
-# Engine for a MySQL Database
-
+# Engine for a SQLite Database
 engine = create_engine(
     settings.SQLALCHEMY_DATABASE_URI, connect_args={"check_same_thread": False}
 )

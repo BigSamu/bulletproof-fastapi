@@ -11,4 +11,4 @@ class ProductResponse(BaseModel):
     description: str
     seller: seller.SellerResponse
     class Config:
-        orm_mode = True
+        from_attributes = True

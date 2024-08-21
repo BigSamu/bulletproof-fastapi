@@ -27,6 +27,7 @@ async def login(request: OAuth2PasswordRequestForm = Depends(), db: Session = De
         .filter(models.Seller.username == request.username)
         .first()
     )
+
     if not seller:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="User not found/Invalid User"
@@ -41,6 +42,9 @@ async def login(request: OAuth2PasswordRequestForm = Depends(), db: Session = De
     )
     return {"access_token": access_token, "token_type": "bearer"}
 
-
-
-   
+@router.post("/logout")
+async def logout():
+    """
+    Logout
+    """
+    return {"message": "Logged out successfully"}

@@ -4,8 +4,7 @@ from fastapi import APIRouter, Depends, Response, HTTPException, status
 from sqlalchemy.orm import Session
 
 from app import schemas, models
-from ..deps import get_db
-from app.utils.token import get_current_user
+from ..deps import get_db, get_current_user
 
 router = APIRouter()
 
@@ -23,7 +22,7 @@ async def get_all_products(
 
 
 @router.get("/{id}", response_model=schemas.ProductResponse)
-async def get_one_product(id: int, response: Response, db: Session = Depends(get_db)):
+async def get_one_product(id: int, response: Response, db: Session = Depends(get_db), current_user: schemas.Seller = Depends(get_current_user),):
     """
     Get one product
     """
@@ -34,7 +33,7 @@ async def get_one_product(id: int, response: Response, db: Session = Depends(get
 
 
 @router.post("", status_code=status.HTTP_201_CREATED)
-async def create_product(request: schemas.Product, db: Session = Depends(get_db)):
+async def create_product(request: schemas.Product, db: Session = Depends(get_db), current_user: schemas.Seller = Depends(get_current_user),):
     """
     Add a product
     """
@@ -42,7 +41,7 @@ async def create_product(request: schemas.Product, db: Session = Depends(get_db)
         name=request.name,
         description=request.description,
         price=request.price,
-        seller_id=1,
+        seller_id=current_user.id,
     )
     db.add(new_product)
     db.commit()
@@ -52,7 +51,7 @@ async def create_product(request: schemas.Product, db: Session = Depends(get_db)
 
 @router.put("/{id}")
 async def update_product(
-    id: int, request: schemas.Product, db: Session = Depends(get_db)
+    id: int, request: schemas.Product, db: Session = Depends(get_db), current_user: schemas.Seller = Depends(get_current_user),
 ):
     """
     Update a product
@@ -66,7 +65,7 @@ async def update_product(
 
 
 @router.delete("/{id}")
-async def remove_product(id: int, db: Session = Depends(get_db)):
+async def remove_product(id: int, db: Session = Depends(get_db), current_user: schemas.Seller = Depends(get_current_user),):
     """
     Delete a product
     """
